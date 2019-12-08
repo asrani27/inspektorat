@@ -15,7 +15,7 @@ class FrontPageSeeder extends Seeder
         $s = new FrontPage;
         $s->title = 'Nama SKPD';
         $s->description = 'Dekripsi alamat DLL';
-        $s->wallpaper = 'wallpaper.jpg';
+        $s->wallpaper = 'inspektorat.png';
         $s->logo = 'logobjm.png';
         $s->save();
     }

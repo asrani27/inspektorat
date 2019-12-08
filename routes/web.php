@@ -21,6 +21,9 @@ Route::get('/', function () {
 });
 
 Route::post('/login', 'Auth\LoginController@login')->name('login');
+Route::get('/login', function () {
+    return redirect('/');
+});
 
 Route::get('/logout', function() {
     Auth::logout();
@@ -31,6 +34,7 @@ Route::get('/logout', function() {
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
+    //Route Master Data
     Route::get('/masterdata/skpd', 'MasterDataController@skpd');
     Route::get('/masterdata/skpd/tambah', 'MasterDataController@tambahSkpd');
     Route::post('/masterdata/skpd/{id}/update', 'MasterDataController@updateSkpd');
@@ -59,9 +63,11 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::post('/masterdata/komponen/update', 'MasterDataController@updatekomponen');
     Route::get('/masterdata/komponen/{id}/delete', 'MasterDataController@deletekomponen');
 
+    Route::get('/masterdata/style', 'MasterDataController@style');
+    Route::post('/masterdata/style/update', 'MasterDataController@updateStyle');
+
+    //Route Pencanangan    
     Route::get('/zi', 'PnController@zi');
-    
-    //Route Pencanangan
     Route::get('/zi/pencanangan/skpd/{id_skpd}', 'PnController@ziPencanangan');
     Route::get('/zi/pencanangan/skpd/{id_skpd}/kategori/{id_kategori}', 'PnController@detailUpload');
     Route::get('/zi/pencanangan/skpd/{id_skpd}/kategori/{id_kategori}/upload', 'PnController@PencananganUpload');
@@ -81,6 +87,26 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::post('/uploadkomponen/nilai/{id_skpd}', 'PbController@isiNilai');
     Route::post('/uploadkomponen/nilai/{id_skpd}/update', 'PbController@updateNilai');
     Route::post('/zi/pembangunan/ubahstatus', 'PbController@ubahstatus');
+
+    //Route WBK
+    Route::get('/wbk', 'WbkController@index');
+    Route::get('/wbk/skpd/{id_skpd}', 'WbkController@detail');
+    Route::post('/wbk/skpd/{id_skpd}', 'WbkController@upload');
+    Route::get('/filewbk/delete/{id}', 'WbkController@deleteFile');
+    Route::post('/filewbk/update/{id_skpd}', 'WbkController@updateFile');
+    Route::post('/wbk/ubahstatus', 'WbkController@ubahstatus');
+    Route::post('/wbk/nilai/{id_skpd}', 'WbkController@isiNilai');
+    Route::post('/wbk/nilai/{id_skpd}/update', 'WbkController@updateNilai');
+
+    //Route WBBM
+    Route::get('/wbbm', 'WbbmController@index');
+    Route::get('/wbbm/skpd/{id_skpd}', 'WbbmController@detail');
+    Route::post('/wbbm/skpd/{id_skpd}', 'WbbmController@upload');
+    Route::get('/filewbbm/delete/{id}', 'WbbmController@deleteFile');
+    Route::post('/filewbbm/update/{id_skpd}', 'WbbmController@updateFile');
+    Route::post('/wbbm/ubahstatus', 'WbbmController@ubahstatus');
+    Route::post('/wbbm/nilai/{id_skpd}', 'WbbmController@isiNilai');
+    Route::post('/wbbm/nilai/{id_skpd}/update', 'WbbmController@updateNilai');
 });
 
 

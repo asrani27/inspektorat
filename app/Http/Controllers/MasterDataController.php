@@ -7,6 +7,7 @@ use App\Skpd;
 use App\Role;
 use App\Kategori;
 use App\Komponen;
+use App\FrontPage;
 use App\User;
 use Alert;
 
@@ -16,6 +17,77 @@ class MasterDataController extends Controller
     {
         $data = Skpd::all();
         return view('superadmin.skpd.index',compact('data'));
+    }
+
+    public function style()
+    {
+        $data = FrontPage::first();
+        return view('superadmin.style',compact('data'));
+    }
+    
+    public function logo($req)
+    {
+        $logoname = $req->logo->getClientOriginalName();
+        $logoname = date('d-m-Y-').rand(1,9999).$logoname;
+        $req->logo->storeAs('/public',$logoname);
+        return $logoname;
+    }
+
+    public function wallpaper($req)
+    {
+        $wallpapername = $req->wallpaper->getClientOriginalName();
+        $wallpapername = date('d-m-Y-').rand(1,9999).$wallpapername;
+        $req->wallpaper->storeAs('/public',$wallpapername);
+        return $wallpapername;
+    }
+
+    public function updateStyle(Request $req)
+    {
+        
+        if($req->logo == null)
+        {
+            if($req->wallpaper == null)
+            {
+                $s = frontpage::first();
+                $s->title = $req->title;
+                $s->description = $req->description;
+                $s->save();
+            }
+            else
+            {
+                $this->wallpaper($req);
+                $s = frontpage::first();
+                $s->title = $req->title;
+                $s->description = $req->description;
+                $s->wallpaper = $this->wallpaper($req);
+                $s->save();
+            }
+        }
+        else
+        { 
+            if($req->wallpaper == null)
+            {
+                $this->logo($req); 
+                $s = frontpage::first();
+                $s->title = $req->title;
+                $s->description = $req->description;
+                $s->logo = $this->logo($req);
+                $s->save();
+            }
+            else
+            {
+                $this->logo($req); 
+                $this->wallpaper($req); 
+                $s = frontpage::first();
+                $s->title = $req->title;
+                $s->description = $req->description;
+                $s->logo = $this->logo($req);
+                $s->wallpaper = $this->wallpaper($req);
+                $s->save();
+            }
+        }
+        Alert::success('Style berhasil Di Update', 'Pesan');
+        return back();
     }
 
     public function tambahSkpd()
@@ -89,8 +161,12 @@ class MasterDataController extends Controller
 
     public function deleteSkpd($id)
     {
-        $del = Skpd::find($id)->delete();
-        Alert::success('Skpd Berhasil Di Hapus', 'Pesan');
+        try {
+            $del = Skpd::find($id)->delete();
+            Alert::success('Skpd Berhasil Di Hapus', 'Pesan');
+        } catch (\Exception $e) {
+            Alert::error('Skpd Tidak Bisa Di Hapus, Karena Telah Memiliki Riwayat Upload Data', 'Pesan');
+        }
         return back();
     }
 

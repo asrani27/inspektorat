@@ -35,6 +35,7 @@
         <li class="{{ (request()->is('masterdata/komponen')) ? 'active' : '' }}"><a href="/masterdata/komponen">Kategori Pembangunan</a></li>
         <li class="{{ (request()->is('masterdata/wbk')) ? 'active' : '' }}"><a href="/masterdata/wbk">Kategori W B K</a></li>
         <li class="{{ (request()->is('masterdata/wbbm')) ? 'active' : '' }}"><a href="/masterdata/wbbm">Kategori W B B M</a></li>
+        <li class="{{ (request()->is('masterdata/style')) ? 'active' : '' }}"><a href="/masterdata/style">Style</a></li>
     </ul>
 </li>
 <li>

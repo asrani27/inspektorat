@@ -99,7 +99,7 @@
 			<img class="card-img-top" src="/assets/wbk.png"  height="250">
 				<div class="card-block text-center">
 					<h5 class="card-title m-t-0 m-b-10">Wilayah Bebas Korupsi</h5>
-						<a href="javascript:;" class="btn btn-sm btn-primary btn-block">W B K</a>
+						<a href="/wbk" class="btn btn-sm btn-primary btn-block">W B K</a>
 				</div>
 		</div>
 	</div>
@@ -108,7 +108,7 @@
 			<img class="card-img-top" src="/assets/wbbm.png"  height="250">
 				<div class="card-block text-center">
 					<h5 class="card-title m-t-0 m-b-10">Wilayah Birokrasi Bersih & Melayani</h5>
-						<a href="javascript:;" class="btn btn-sm btn-primary btn-block">W B B M</a>
+						<a href="/wbbm" class="btn btn-sm btn-primary btn-block">W B B M</a>
 				</div>
 		</div>
 	</div>

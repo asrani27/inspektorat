@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', 'Pencanangan')
+@section('title', 'WBK')
 
 @push('css')
 
@@ -19,7 +19,7 @@
 					<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
 					<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
 				</div>
-				<h4 class="panel-title">DAFTAR SKPD MENUJU ZONA INTEGRITAS</h4>
+				<h4 class="panel-title">DAFTAR SKPD MENUJU WILAYAH BEBAS KORUPSI (WBK)</h4>
 			</div>
 			<!-- end panel-heading -->
 			<!-- begin panel-body -->
@@ -43,42 +43,29 @@
                                 <td width="5px">{{$no++}}</td>
 								<td><h5 class="widget-table-title">{{$item->nama}}</h5>
 									<?php
-									if($item->sesuai >= $item->jml_pegawai){
-										$skor_pc = 50;
-									}
-									if($item->jml_pegawai == 0){
-										$skor_pc = 0;
+									if($item->sesuai == $jml_komponen){
+										$skor = 100;
 									}
 									else{
-										$skor_pc = ($item->sesuai * 50) / $item->jml_pegawai;	
+										$skor = $item->sesuai * 100 / $jml_komponen;
 									}
-
-									if($item->pb_sesuai == $jml_komponen){
-										$skor_pb = 50;
-									}
-									else{
-										$skor_pb = $item->pb_sesuai * 50 / $jml_komponen;
-									}
-
-									$skor_akhir = $skor_pc + $skor_pb;
 									?>
 									<div class="progress progress-sm rounded-corner m-b-5">
-									<div class="progress-bar progress-bar-striped progress-bar-animated bg-green f-s-10 f-w-600" style="width: {{$skor_akhir}}%;">{{$skor_akhir}}%</div>
+									<div class="progress-bar progress-bar-striped progress-bar-animated bg-green f-s-10 f-w-600" style="width: {{$skor}}%;">{{$skor}}%</div>
 									</div>
 									<div class="clearfix f-s-10">
 											status: 
 									<b class="text-inverse" data-id="widget-elm" data-light-class="text-inverse" data-dark-class="text-white">
-										@if($item->predikat == 'zi' OR $item->predikat == 'wbk' OR $item->predikat == 'wbbm')
-										Telah Mendapatkan Predikat Zona Integritas (ZI)
+										@if($item->predikat == 'wbk' OR $item->predikat == 'wbbm')
+											Telah Mendapatkan Predikat Wilayah Bebas Korupsi (WBK)
 										@else
-										Menuju Zona Integritas
+											Menuju Wilayah Bebas Korupsi (WBK)
 										@endif
 									</b>
 									</div>
 								</td>
-								<td class="with-btn" nowrap ><br>
-                                    <a href="/zi/pencanangan/skpd/{{$item->id}}" class="btn btn-sm btn-primary">Pencanangan</a>
-									<a href="/zi/pembangunan/skpd/{{$item->id}}" class="btn btn-sm btn-warning">Pembangunan</a>
+								<td class="with-btn" nowrap><br>
+                                    <a href="/wbk/skpd/{{$item->id}}" class="btn btn-sm btn-primary">Detail</a>
 								</td>
 							</tr>
                             @endforeach

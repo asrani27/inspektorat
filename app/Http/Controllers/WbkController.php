@@ -5,19 +5,30 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use Alert;
-use App\User;
+use App\Kategori;
 use App\Skpd;
-use App\Komponen;
-use App\UploadKomponen;
+use App\FileWbk;
 
-class PbController extends Controller
+class WbkController extends Controller
 {
-    public function ziPembangunan($id_skpd)
+    public function index()
+    {
+        $data = Skpd::all();
+        $map = $data->map(function($item){
+            $item->sesuai = count($item->filewbk->where('status',1));
+            return $item;
+        });
+        $jml_komponen = count(Kategori::where('jenis','wbk')->get());
+        //dd($map, $jml_komponen);
+        return view('superadmin.wbk.index',compact('map','jml_komponen'));
+    }
+
+    public function detail($id_skpd)
     {
         $skpd = Skpd::find($id_skpd);
-        $data = Komponen::all();
+        $data = Kategori::where('jenis','wbk')->get();
         $map = $data->map(function($item)use($id_skpd){
-            $uk = $item->uploadkomponen->where('skpd_id', $id_skpd)->first();
+            $uk = $item->filewbk->where('skpd_id', $id_skpd)->first();
             if($uk == null)
             {
                 $item->filename = null;    
@@ -35,22 +46,21 @@ class PbController extends Controller
             
             return $item;
         });
-        
-        return view('superadmin.zi.pembangunan',compact('skpd','map','id_skpd'));
+        return view('superadmin.wbk.detail',compact('map','skpd','id_skpd'));
     }
 
-    public function PembangunanUploadSimpan(Request $req, $id_skpd)
+    public function upload(Request $req, $id_skpd)
     {
         if($req->hasfile('file'))
         {
             $filename = $req->file->getClientOriginalName();
             $filename = date('d-m-Y-').rand(1,999).$filename;
-            $req->file->storeAs('/public/pembangunan/'.$id_skpd.'/',$filename);
+            $req->file->storeAs('/public/wbk/'.$id_skpd.'/',$filename);
         }
 
-        $u = new UploadKomponen;
+        $u = new FileWbk;
         $u->skpd_id     = $id_skpd;
-        $u->komponen_id = $req->komponen_id;
+        $u->kategori_id = $req->kategori_id;
         $u->filename    = $filename;
         $u->save();
         
@@ -58,9 +68,9 @@ class PbController extends Controller
         return back();
     }
 
-    public function deleteUploadKomponen($id)
+    public function deleteFile($id)
     {
-        $d = UploadKomponen::find($id)->delete();
+        $del = FileWbk::find($id)->delete();
         Alert::success('Berhasil Di Hapus', 'Pesan');
         return back();
     }
@@ -71,20 +81,29 @@ class PbController extends Controller
         {
             $filename = $req->file->getClientOriginalName();
             $filename = date('d-m-Y-').rand(1,999).$filename;
-            $req->file->storeAs('/public/pembangunan/'.$id_skpd.'/',$filename);
+            $req->file->storeAs('/public/wbk/'.$id_skpd.'/',$filename);
         }
 
-        $u = UploadKomponen::find($req->komponen_id);
+        $u = FileWbk::find($req->kategori_id);
         $u->filename    = $filename;
         $u->save();
         
         Alert::success('Berhasil Di Update ', 'Pesan');
         return back();
     }
+    
+    public function ubahstatus (Request $req)
+    {
+        $fu = FileWbk::find($req->id_file);
+        $fu->status = $req->status;
+        $fu->save();
+        Alert::success('Status Berhasil Di Perbaharui','Pesan');
+        return back();
+    }
 
     public function isiNilai(Request $req)
     {
-        $fu = UploadKomponen::find($req->id_nilai);
+        $fu = FileWbk::find($req->id_nilai);
         $fu->nilai = $req->nilai;
         $fu->save();
         Alert::success('Nilai Berhasil Di Simpan','Pesan');
@@ -93,19 +112,11 @@ class PbController extends Controller
 
     public function updateNilai(Request $req)
     {
-        $fu = UploadKomponen::find($req->id_nilai);
+        $fu = FileWbk::find($req->id_nilai);
         $fu->nilai = $req->nilai;
         $fu->save();
         Alert::success('Nilai Berhasil Di Update','Pesan');
         return back();
     }
 
-    public function ubahstatus (Request $req)
-    {
-        $fu = UploadKomponen::find($req->id_uploadkomponen);
-        $fu->status = $req->status;
-        $fu->save();
-        Alert::success('Status Berhasil Di Perbaharui','Pesan');
-        return back();
-    }
 }

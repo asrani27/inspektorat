@@ -7,6 +7,7 @@ use App\Kategori;
 use App\Skpd;
 use App\Upload;
 use App\FileUpload;
+use App\Komponen;
 use Alert;
 use Storage;
 
@@ -47,7 +48,22 @@ class PnController extends Controller
     public function zi()
     {
         $data = Skpd::all();
-        return view('superadmin.zi.index',compact('data'));
+        $map = $data->map(function($item){
+            $upload_id = $item->upload->where('kategori_id',1)->first();
+            if($upload_id == null)
+            {
+                $item->sesuai = 0;
+            }
+            else
+            {
+                $item->sesuai = count($upload_id->fileupload->where('status',1));
+            }
+            $item->pb_sesuai = count($item->uploadkomponen->where('status',1));
+            return $item;
+        });
+        $jml_komponen = count(Komponen::all());
+        //dd($map, $jml_komponen);
+        return view('superadmin.zi.index',compact('map','jml_komponen'));
     }  
 
     public function PencananganUpload($id_skpd, $id_kategori)
