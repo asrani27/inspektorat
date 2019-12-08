@@ -7,7 +7,7 @@
 	<div class="login login-with-news-feed">
 		<!-- begin news-feed -->
 		<div class="news-feed">
-			<div class="news-image" style="background-image: url(/storage/{{$data->wallpaper}})"></div>
+			<div class="news-image" style="background-image: url({{url("/storage/{$data->wallpaper}")}})"></div>
 			<div class="news-caption">
 				<h4 class="caption-title"><b>{{$data->title}} </b></h4>
 				<p>
@@ -21,7 +21,7 @@
 			<!-- begin login-header -->
 			<div class="login-header">
 				<div class="brand text-center">
-					 <img src="/storage/{{$data->logo}}" width="80"> <br /><b>Login</b> Aplikasi
+				<img src={{url("/storage/{$data->logo}")}} width="80"> <br /><b>Login</b> Aplikasi
 					<small>{{$data->title}}</small>
 				</div>
 				<div class="icon">
