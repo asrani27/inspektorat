@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kategori extends Model
 {
-    protected $table = 'Kategori';
+    protected $table = 'kategori';
 
     public function filewbk()
     {
