@@ -1,96 +1,86 @@
 @extends('layouts.default')
 
-@section('title', 'SKPD')
+@section('title', 'Pencanangan')
 
 @push('css')
 
 @endpush
 
 @section('content')
-	<!-- begin breadcrumb -->
-	{{-- <ol class="breadcrumb pull-right">
-		<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
-		<li class="breadcrumb-item active">Dashboard</li>
-	</ol> --}}
-	<!-- end breadcrumb -->
-	<!-- begin page-header -->
-	<!-- end page-header -->
-
 <div class="row">
-	<div class="col-lg-12">
-		<!-- begin panel -->
-		<div class="panel panel-inverse" data-sortable-id="table-basic-7">
-			<!-- begin panel-heading -->
-			<div class="panel-heading">
-				<div class="panel-heading-btn">
-					<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-					<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
-					<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-					<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+		<!-- begin col-10 -->
+		<div class="col-lg-12">
+			<!-- begin panel -->
+			<div class="panel panel-inverse">
+				<!-- begin panel-heading -->
+				<div class="panel-heading">
+                <h4 class="panel-title">DAFTAR KATEGORI - {{strtoupper($skpd->nama)}}</h4>
 				</div>
-				<h4 class="panel-title">KATEGORI UPLOAD</h4>
-			</div>
-            <!-- end panel-heading -->
-            
+				<!-- end panel-heading -->
+				<!-- begin alert -->
 				<div class="alert alert-secondary fade show">
-                    <a href="/home" class="btn btn-danger btn-sm">Kembali</a>
+                    <a href="/" class="btn btn-danger btn-sm">Kembali</a>
+                    {{-- <a href="/zi/pencanangan/skpd/{{$id_skpd}}/upload" class="btn btn-success btn-sm">Upload</a> --}}
 				</div>
-			<!-- begin panel-body -->
-			<div class="panel-body">
-				<!-- begin table-responsive -->
-				<div class="table-responsive table-bordered">
-					<table class="table table-striped m-b-0 ">
+				<!-- end alert -->
+				<!-- begin panel-body -->
+				<div class="panel-body">
+						<div class="table-responsive table-bordered">
+					<table class="table table-striped table-bordered">
 						<thead>
 							<tr>
-								<th width="4%">No</th>
-								<th width="90%">Kategori</th>
-								<th>Aksi</th>
+								<th width="1%">No</th>
+								<th width="80%" class="text-nowrap">Kategori</th>
+								<th class="text-nowrap">Total Upload</th>
+								<th class="text-nowrap">Aksi</th>
 							</tr>
 						</thead>
 						<tbody>
-                            <?php
-                            $no=1;
-                            ?>
-                            <tr>
-								<td>1</td>
-								<td><h5 class="widget-table-title">Fakta Integritas</h5>
-									<div class="progress progress-sm rounded-corner m-b-5">
-											<div class="progress-bar progress-bar-striped progress-bar-animated bg-warning f-s-10 f-w-600" style="width: 90%;">90%</div>
-									</div>
-									<div class="clearfix f-s-10">
-											status: 
-									<b class="text-inverse" data-id="widget-elm" data-light-class="text-inverse" data-dark-class="text-white">Proses</b>
-									</div>
+                            @php
+                            $no = 1; 
+                            @endphp
+                            @foreach ($mapKategori as $item)
+							<tr class="odd gradeX">
+                                <td width="1%" class="f-s-600 text-inverse">{{$no++}}</td>
+								<td><h5>{{$item->nama}}</h5>
+								@if($item->id == 1)
+								 Jumlah Pegawai : {{strtoupper($skpd->jml_pegawai)}} orang <br />
+								 <?php
+								 $sesuai = $item->sesuai;
+								 $jml_pegawai = $skpd->jml_pegawai;
+								 if($sesuai >= $jml_pegawai)
+								 {
+									$skor = 100;
+								 }
+								 if($jml_pegawai == 0)
+								 {
+									$skor = 0;
+								 } 
+								 else {
+									$skor = $sesuai * 100 / $jml_pegawai;	 
+								 }
+								 ?>
+								<div class="progress progress-sm rounded-corner m-b-5">
+								<div class="progress-bar progress-bar-striped progress-bar-animated bg-orange f-s-10 f-w-600" style="width: {{$skor}}%;">{{$skor}}%</div>
+								</div>
+								@else
+								@endif
 								</td>
-								<td class="with-btn" nowrap>
-									<a href="#" class="btn btn-sm btn-primary rounded-corner">Detail</a>
-								</td>
-							</tr>
-                            @foreach ($data as $item)
-							<tr>
-                                <td>{{$no++}}</td>
-								<td><h5 class="widget-table-title">{{$item->nama}}</h5>
-									<div class="progress progress-sm rounded-corner m-b-5">
-										<div class="progress-bar progress-bar-striped progress-bar-animated bg-orange f-s-10 f-w-600" style="width: 0%;">0%</div>
-									</div>
-									<div class="clearfix f-s-10">
-											status: 
-									<b class="text-inverse" data-id="widget-elm" data-light-class="text-inverse" data-dark-class="text-white">On Going</b>
-									</div>
-								</td>
-								<td class="with-btn" nowrap>
-									<a href="#" class="btn btn-sm btn-primary rounded-corner disabled">Detail</a>
-								</td>
+								<td class="text-center "><h5>{{$item->jml_upload}}</h5></td>
+								<td> 
+								<a href="/pencanangan/kategori/{{$item->id}}" class="btn btn-primary btn-xs">Detail</a>
+                                </td>
 							</tr>
                             @endforeach
-							
-						</tbody>
+                        </tbody>
 					</table>
+						</div>
 				</div>
-				<!-- end table-responsive -->
+				<!-- end panel-body -->
 			</div>
+			<!-- end panel -->
 		</div>
-	</div>
+		<!-- end col-10 -->
 </div>
 @endsection
 
@@ -103,3 +93,4 @@
 	});
 </script>
 @endpush
+

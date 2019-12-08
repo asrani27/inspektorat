@@ -19,8 +19,8 @@
 				<!-- end panel-heading -->
 				<!-- begin alert -->
 				<div class="alert alert-secondary fade show">
-                    <a href="/zi/pencanangan/skpd/{{$id_skpd}}" class="btn btn-danger btn-sm">Kembali</a>
-                    <a href="/zi/pencanangan/skpd/{{$id_skpd}}/kategori/{{$id_kategori}}/upload" class="btn btn-success btn-sm">Upload</a>
+                    <a href="/pencanangan" class="btn btn-danger btn-sm">Kembali</a>
+                    <a href="/pencanangan/kategori/{{$id_kategori}}/upload" class="btn btn-success btn-sm">Upload</a>
 				</div>
 				<!-- end alert -->
 				<!-- begin panel-body -->
@@ -39,7 +39,7 @@
                             @php
                             $no = 1; 
                             @endphp
-                            @foreach ($data as $item)
+                            @foreach ($map as $item)
 							<tr class="odd gradeX">
                                 <td width="1%" class="f-s-600 text-inverse">{{$no++}}</td>
 								<td width=200px><strong><a href="#" class="edit-judul" data-id="{{$item->id}}" data-judul="{{$item->judul}}">{{$item->judul}}</a></strong></td>
@@ -54,7 +54,7 @@
 										<td width="5px">{{$number++}}</td>
 										<td>{{$item2->filename}}</td>
 										<td>{{$item2->keterangan}}</td>
-										<td><a href="#" class="btn btn-xs btn-primary edit-status" data-id="{{$item2->id}}" data-status="{{$item2->status}}" data-keterangan="{{$item2->keterangan}}">
+										<td><a href="#" class="btn btn-xs btn-primary">
 											@if($item2->status == 0)
 											Dalam Proses
 											@elseif($item2->status == 1)
@@ -68,18 +68,22 @@
 										<td>
 											{{-- <a href="/fileupload/preview/{{$id_skpd}}/{{$item2->id}}" target="_blank" class="btn btn-xs btn-info">View</a>  --}}
 											
-											<a href="/storage/pencanangan/{{$id_skpd}}/{{$item2->filename}}" class="btn btn-xs btn-purple">Unduh</a> 
-											
+											<a href="/storage/pencanangan/{{$id_skpd}}/{{$item2->filename}}" target="_blank" class="btn btn-xs btn-purple">Unduh</a> 
+                                            @if($item2->status == 1)
+                                            @else
 											<a href="#" class="btn btn-xs btn-warning edit-file" data-id="{{$item2->id}}" >Edit</a> 
-											
-											<a href="/fileupload/delete/{{$item2->id}}" class="btn btn-xs btn-danger" onclick="return confirm('Apakah anda Yakin ingin menghapus Data Ini?');">Delete</a> 
-										</td>
+											<a href="/pencanangan/delete/{{$item2->id}}" class="btn btn-xs btn-danger" onclick="return confirm('Apakah anda Yakin ingin menghapus Data Ini?');">Delete</a> 
+                                            @endif
+                                        </td>
 										</tr>
 										@endforeach
 										</table>
 								</td>
 								<td> 
-								<a href="/zi/pencanangan/skpd/{{$id_skpd}}/kategori/{{$id_kategori}}/delete/{{$item->id}}" class="btn btn-danger btn-xs" onclick="return confirm('Apakah anda Yakin ingin menghapus Data Ini?');">Delete</a>
+                                    @if($item->ada > 0)
+                                    @else
+								        <a href="/pencanangan/kategori/{{$id_kategori}}/delete/{{$item->id}}" class="btn btn-danger btn-xs" onclick="return confirm('Apakah anda Yakin ingin menghapus Data Ini?');">Delete</a>
+                                    @endif
                                 </td>
 							</tr>
                             @endforeach
@@ -93,41 +97,6 @@
 		</div>
 		<!-- end col-10 -->
 </div>
-<div class="modal fade" id="modal-dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">Edit Status</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				</div>
-				<form action="/zi/pencanangan/ubahstatus" method="POST">
-					@csrf
-				<div class="modal-body">
-					<p>
-						<div class="form-group row m-b-15">
-							<label class="col-md-3 col-form-label">Status</label>
-							<div class="col-md-8">
-								<select class="form-control" id="status" name="status">
-								</select>
-								<input type="hidden" class="form-control" id="iddata" name="id_fileupload">
-							</div>
-						</div>
-						<div class="form-group row m-b-15">
-							<label class="col-md-3 col-form-label">Keterangan</label>
-							<div class="col-md-8">
-								<input type="text" class="form-control" id="keterangan" name="keterangan">
-							</div>
-						</div>
-					</p>
-				</div>
-				<div class="modal-footer">
-					<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Close</a>
-					<button type="submit" class="btn btn-success">Simpan</button>
-				</div>
-				</form>
-			</div>
-		</div>
-</div>
 <div class="modal fade" id="modal-dialog-edit-file">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -135,7 +104,7 @@
 					<h4 class="modal-title">Edit File</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 				</div>
-				<form action="/fileupload/update" method="POST" enctype="multipart/form-data">
+				<form action="/pencanangan/fileupload/update" method="POST" enctype="multipart/form-data">
 					@csrf
 				<div class="modal-body">
 					<p>
@@ -163,7 +132,7 @@
 					<h4 class="modal-title">Edit Judul</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 				</div>
-				<form action="/fileupload/judul/update" method="POST" enctype="multipart/form-data">
+				<form action="/pencanangan/judul/update" method="POST" enctype="multipart/form-data">
 					@csrf
 				<div class="modal-body">
 					<p>
@@ -192,42 +161,6 @@
 <script src="/assets/js/demo/render.highlight.js"></script>
 <script>
 	$(document).ready(function() {
-			
-		$(document).on('click', '.edit-status', function() {
-			$('#iddata').val($(this).data('id'));
-			$('#keterangan').val($(this).data('keterangan'));
-			$('#status').empty();
-			var status = $(this).data('status');
-			if(status === 0)
-			{
-			$('#status').append('<option value="0" selected>Dalam Proses</option>');
-			$('#status').append('<option value="1">Sesuai</option>');
-			$('#status').append('<option value="2">Belum Di Tindak Lanjuti</option>');
-			$('#status').append('<option value="3">Tidak Sesuai</option>');
-			}
-			else if(status === 1)
-			{
-			$('#status').append('<option value="0" >Dalam Proses</option>');
-			$('#status').append('<option value="1" selected>Sesuai</option>');
-			$('#status').append('<option value="2">Belum Di Tindak Lanjuti</option>');
-			$('#status').append('<option value="3">Tidak Sesuai</option>');
-			}
-			else if(status === 2)
-			{
-			$('#status').append('<option value="0" >Dalam Proses</option>');
-			$('#status').append('<option value="1">Sesuai</option>');
-			$('#status').append('<option value="2" selected>Belum Di Tindak Lanjuti</option>');
-			$('#status').append('<option value="3">Tidak Sesuai</option>');
-			}
-			else if(status === 3)
-			{
-			$('#status').append('<option value="0" >Dalam Proses</option>');
-			$('#status').append('<option value="1">Sesuai</option>');
-			$('#status').append('<option value="2">Belum Di Tindak Lanjuti</option>');
-			$('#status').append('<option value="3" selected>Tidak Sesuai</option>');
-			}
-            $('#modal-dialog').modal('show');
-		});
 		
 		$(document).on('click', '.edit-file', function() {
 			$('#ideditfile').val($(this).data('id'));

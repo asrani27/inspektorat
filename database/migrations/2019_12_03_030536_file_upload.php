@@ -18,8 +18,9 @@ class FileUpload extends Migration
             $table->string('filename');
             $table->UnsignedInteger('upload_id')->nullable();
             $table->string('status')->default(0)->nullable();
+            $table->text('keterangan')->nullable();
             $table->timestamps();
-            $table->foreign('upload_id')->references('id')->on('upload')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('upload_id')->references('id')->on('upload')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

@@ -95,6 +95,7 @@ class WbbmController extends Controller
     {
         $fu = FileWbbm::find($req->id_file);
         $fu->status = $req->status;
+        $fu->keterangan = $req->keterangan;
         $fu->save();
         Alert::success('Status Berhasil Di Perbaharui','Pesan');
         return back();

@@ -111,5 +111,24 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
 
 
 Route::group(['middleware' => ['auth', 'role:skpd']], function () {
-    Route::get('/pencanangan', 'PnController@index');
+    Route::get('/pencanangan', 'SkpdController@pencanangan');
+    Route::get('/pencanangan/kategori/{id_kategori}', 'SkpdController@detailPencanangan');
+    Route::get('/pencanangan/kategori/{id_kategori}/upload', 'SkpdController@uploadPC');
+    Route::post('/pencanangan/kategori/{id_kategori}/upload', 'SkpdController@uploadPCsimpan');
+    Route::get('/pencanangan/kategori/{id_kategori}/delete/{id_upload}', 'SkpdController@deletePC');
+    Route::get('/pencanangan/delete/{id}', 'SkpdController@deleteFileUpload');
+    Route::post('/pencanangan/judul/update', 'SkpdController@updateJudul');
+    Route::post('/pencanangan/fileupload/update', 'SkpdController@updateFile');
+
+    
+    Route::get('/pembangunan', 'SkpdController@pembangunan');
+    Route::post('/pembangunan/upload', 'SkpdController@uploadPB');
+    Route::post('/pembangunan/updatefile', 'SkpdController@updateFilePB');
+    Route::get('/pembangunan/delete/{id}', 'SkpdController@deletePB');
+
+    Route::get('/skpd/wbk', 'SkpdController@wbk');
+    Route::post('/skpd/wbk', 'SkpdController@uploadWBK');
+    Route::get('/skpd/filewbk/delete/{id}', 'SkpdController@deleteWBK');
+    Route::post('/skpd/filewbk/update', 'SkpdController@updateWBK');
+    
 });

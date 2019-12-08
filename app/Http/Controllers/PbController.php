@@ -104,6 +104,7 @@ class PbController extends Controller
     {
         $fu = UploadKomponen::find($req->id_uploadkomponen);
         $fu->status = $req->status;
+        $fu->keterangan = $req->keterangan;
         $fu->save();
         Alert::success('Status Berhasil Di Perbaharui','Pesan');
         return back();

@@ -19,7 +19,7 @@
 				<!-- end panel-heading -->
 				<!-- begin alert -->
 				<div class="alert alert-secondary fade show">
-                    <a href="/wbbm" class="btn btn-danger btn-sm">Kembali</a>
+                    <a href="/" class="btn btn-danger btn-sm">Kembali</a>
                 </div>
 				<!-- end alert -->
 				<!-- begin panel-body -->
@@ -45,17 +45,7 @@
 							<tr class="odd gradeX">
                                 <td width="1%" class="f-s-600 text-inverse">{{$no++}}</td>
                                 <td>{{$item->nama}}</td>
-                                <td class="text-center" >
-									@if($item->filename == null)
-									-
-									@else
-										@if($item->nilai == null)
-										<a href="#" class="btn btn-xs btn-primary isi-nilai" data-id="{{$item->upload_id}}">Isi Nilai</a>
-										@else
-										<a href="#" class="edit-nilai" data-id="{{$item->upload_id}}" data-nilai="{{$item->nilai}}"><strong>{{$item->nilai}}</strong></a>
-										@endif
-									@endif
-								</td>
+                                <td>{{$item->nilai}}</td>
                                 <td>{{$item->keterangan}}</td>
                                 <td>{{$item->filename}}</td>
                                 <td>
@@ -78,9 +68,13 @@
 									@if($item->filename == null)
 									<a href="#" class="btn btn-xs btn-primary add-upload" data-id="{{$item->id}}">Upload</a>
 									@else
-									<a href="/storage/wbbm/{{$id_skpd}}/{{$item->filename}}" target="_blank" class="btn btn-xs btn-purple">Unduh</a>
-									<a href="#" class="btn btn-xs btn-warning edit-upload" data-id="{{$item->upload_id}}">Edit</a>		
-									<a href="/filewbbm/delete/{{$item->upload_id}}" class="btn btn-xs btn-danger" onclick="return confirm('Apakah anda Yakin ingin menghapus Data Ini?');">Delete</a> 	
+                                        @if($item->status == 1) 
+                                        <a href="/storage/wbk/{{$id_skpd}}/{{$item->filename}}" target="_blank" class="btn btn-xs btn-purple">Unduh</a>
+                                        @else
+                                        <a href="/storage/wbk/{{$id_skpd}}/{{$item->filename}}" target="_blank" class="btn btn-xs btn-purple">Unduh</a>
+                                        <a href="#" class="btn btn-xs btn-warning edit-upload" data-id="{{$item->upload_id}}">Edit</a>		
+                                        <a href="/skpd/filewbk/delete/{{$item->upload_id}}" class="btn btn-xs btn-danger" onclick="return confirm('Apakah anda Yakin ingin menghapus Data Ini?');">Delete</a> 	
+                                        @endif
 									@endif
                                 </td>
 							</tr>
@@ -102,7 +96,7 @@
 					<h4 class="modal-title">Upload File</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 				</div>
-                <form action="/wbbm/skpd/{{$id_skpd}}" method="POST" enctype="multipart/form-data">
+                <form action="/skpd/wbk" method="POST" enctype="multipart/form-data">
 					@csrf
 				<div class="modal-body">
 					<p>
@@ -130,7 +124,7 @@
 					<h4 class="modal-title">Edit File</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 				</div>
-				<form action="/filewbbm/update/{{$id_skpd}}" method="POST" enctype="multipart/form-data">
+				<form action="/skpd/filewbk/update" method="POST" enctype="multipart/form-data">
 					@csrf
 				<div class="modal-body">
 					<p>
@@ -139,97 +133,6 @@
 							<div class="col-md-8">
 								<input type="file" name="file" required>
 								<input type="hidden" class="form-control" id="edit_komponen_id" name="kategori_id" readonly>
-							</div>
-						</div>
-					</p>
-				</div>
-				<div class="modal-footer">
-					<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Close</a>
-					<button type="submit" class="btn btn-success">Simpan</button>
-				</div>
-				</form>
-			</div>
-		</div>
-</div>
-<div class="modal fade" id="modal-dialog-isi-nilai">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">ISI NILAI</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				</div>
-				<form action="/wbbm/nilai/{{$id_skpd}}" method="POST" enctype="multipart/form-data">
-					@csrf
-				<div class="modal-body">
-					<p>
-						<div class="form-group row m-b-15">
-							<label class="col-md-2 col-form-label">Nilai</label>
-							<div class="col-md-6">
-								<input type="text" class="form-control" id="nilai" name="nilai" required>
-								<input type="hidden" class="form-control" id="id_nilai" name="id_nilai">
-							</div>
-						</div>
-					</p>
-				</div>
-				<div class="modal-footer">
-					<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Close</a>
-					<button type="submit" class="btn btn-success">Simpan</button>
-				</div>
-				</form>
-			</div>
-		</div>
-</div>
-<div class="modal fade" id="modal-dialog-edit-nilai">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">EDIT NILAI</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				</div>
-				<form action="/wbbm/nilai/{{$id_skpd}}/update" method="POST" enctype="multipart/form-data">
-					@csrf
-				<div class="modal-body">
-					<p>
-						<div class="form-group row m-b-15">
-							<label class="col-md-2 col-form-label">Nilai</label>
-							<div class="col-md-6">
-								<input type="text" class="form-control" id="nilai_edit" name="nilai" required>
-								<input type="hidden" class="form-control" id="id_nilai_edit" name="id_nilai">
-							</div>
-						</div>
-					</p>
-				</div>
-				<div class="modal-footer">
-					<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Close</a>
-					<button type="submit" class="btn btn-success">Simpan</button>
-				</div>
-				</form>
-			</div>
-		</div>
-</div>
-<div class="modal fade" id="modal-dialog-edit-status">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">EDIT STATUS</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				</div>
-				<form action="/wbbm/ubahstatus" method="POST">
-					@csrf
-				<div class="modal-body">
-					<p>
-						<div class="form-group row m-b-15">
-							<label class="col-md-3 col-form-label">Status</label>
-							<div class="col-md-8">
-								<select class="form-control" id="status" name="status">
-								</select>
-								<input type="hidden" class="form-control" id="id_file" name="id_file" readonly>
-							</div>
-						</div>
-						<div class="form-group row m-b-15">
-							<label class="col-md-3 col-form-label">Keterangan</label>
-							<div class="col-md-8">
-								<input type="text" class="form-control" id="keterangan" name="keterangan">
 							</div>
 						</div>
 					</p>
@@ -269,6 +172,7 @@
 
 		$(document).on('click', '.edit-status', function() {
 			$('#id_file').val($(this).data('id'));
+			$('#keterangan').val($(this).data('keterangan'));
 			$('#status').empty();
 			var status = $(this).data('status');
 			console.log(status);

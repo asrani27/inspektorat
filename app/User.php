@@ -20,7 +20,7 @@ class User extends Authenticatable
      */
     public function skpd()
     {
-        return $this->hasMany(Skpd::class, 'users_id');
+        return $this->hasOne(Skpd::class, 'users_id');
     }
 
     protected $fillable = [

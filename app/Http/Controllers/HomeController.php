@@ -10,6 +10,7 @@ use App\DataMaster;
 use App\Semester;
 use App\Setting;
 use App\User;
+use App\Skpd;
 
 class HomeController extends Controller
 {
@@ -33,7 +34,8 @@ class HomeController extends Controller
         if(Auth::user()->hasRole('skpd'))
         {
             $data = Auth::user();
-            return view('skpd.dashboard',compact('data'));
+            $skpd = $data->skpd;
+            return view('skpd.dashboard',compact('data','skpd'));
         }
         elseif(Auth::user()->hasRole('superadmin'))
         {

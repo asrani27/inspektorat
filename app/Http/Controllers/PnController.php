@@ -110,6 +110,7 @@ class PnController extends Controller
     {
         $fu = FileUpload::find($req->id_fileupload);
         $fu->status = $req->status;
+        $fu->keterangan = $req->keterangan;
         $fu->save();
         Alert::success('Status Berhasil Di Perbaharui','Pesan');
         return back();

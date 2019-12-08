@@ -64,13 +64,13 @@
 									-
 									@else
 										@if($item->status == 0)
-										<a href="#" class="btn btn-xs btn-primary edit-status" data-id="{{$item->upload_id}}" data-status="{{$item->status}}">Dalam Proses</a>
+										<a href="#" class="btn btn-xs btn-primary edit-status" data-id="{{$item->upload_id}}" data-status="{{$item->status}}" data-keterangan="{{$item->keterangan}}">Dalam Proses</a>
 										@elseif($item->status == 1)
-										<a href="#" class="btn btn-xs btn-primary edit-status" data-id="{{$item->upload_id}}" data-status="{{$item->status}}">Sesuai</a>
+										<a href="#" class="btn btn-xs btn-primary edit-status" data-id="{{$item->upload_id}}" data-status="{{$item->status}}" data-keterangan="{{$item->keterangan}}">Sesuai</a>
 										@elseif($item->status == 2)
-										<a href="#" class="btn btn-xs btn-primary edit-status" data-id="{{$item->upload_id}}" data-status="{{$item->status}}">Belum Di Tidak Lanjuti</a>
+										<a href="#" class="btn btn-xs btn-primary edit-status" data-id="{{$item->upload_id}}" data-status="{{$item->status}}" data-keterangan="{{$item->keterangan}}">Belum Di Tidak Lanjuti</a>
 										@elseif($item->status == 3)
-										<a href="#" class="btn btn-xs btn-primary edit-status" data-id="{{$item->upload_id}}" data-status="{{$item->status}}">Tidak Sesuai</a>
+										<a href="#" class="btn btn-xs btn-primary edit-status" data-id="{{$item->upload_id}}" data-status="{{$item->status}}" data-keterangan="{{$item->keterangan}}">Tidak Sesuai</a>
 										@endif
 									@endif
 								</td>
@@ -226,6 +226,12 @@
 								<input type="hidden" class="form-control" id="id_file" name="id_file" readonly>
 							</div>
 						</div>
+						<div class="form-group row m-b-15">
+							<label class="col-md-3 col-form-label">Keterangan</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" id="keterangan" name="keterangan">
+							</div>
+						</div>
 					</p>
 				</div>
 				<div class="modal-footer">
@@ -263,6 +269,7 @@
 
 		$(document).on('click', '.edit-status', function() {
 			$('#id_file').val($(this).data('id'));
+			$('#keterangan').val($(this).data('keterangan'));
 			$('#status').empty();
 			var status = $(this).data('status');
 			console.log(status);
