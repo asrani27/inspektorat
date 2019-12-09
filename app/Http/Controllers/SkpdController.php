@@ -269,4 +269,112 @@ class SkpdController extends Controller
         Alert::success('Berhasil Di Update ', 'Pesan');
         return back();
     }
+    
+    public function wbbm()
+    {        
+        $id_skpd = Auth::user()->skpd->id;
+        $skpd = Skpd::find($id_skpd);
+        $data = Kategori::where('jenis','wbbm')->get();
+        $map = $data->map(function($item)use($id_skpd){
+            $uk = $item->filewbbm->where('skpd_id', $id_skpd)->first();
+            if($uk == null)
+            {
+                $item->filename = null;    
+                $item->nilai = null;    
+                $item->keterangan = null;    
+            }
+            else
+            {
+                $item->filename = $uk->filename;
+                $item->nilai = $uk->nilai;
+                $item->keterangan = $uk->keterangan;
+                $item->upload_id = $uk->id;
+                $item->status = $uk->status;
+            }
+            
+            return $item;
+        });
+        return view('skpd.wbbm',compact('map','skpd','id_skpd'));
+    }
+    
+    public function uploadWBBM(Request $req)
+    {
+        $id_skpd = Auth::user()->skpd->id;
+        if($req->hasfile('file'))
+        {
+            $filename = $req->file->getClientOriginalName();
+            $filename = date('d-m-Y-').rand(1,999).$filename;
+            $req->file->storeAs('/public/wbbm/'.$id_skpd.'/',$filename);
+        }
+
+        $u = new FileWbbm;
+        $u->skpd_id     = $id_skpd;
+        $u->kategori_id = $req->kategori_id;
+        $u->filename    = $filename;
+        $u->save();
+        
+        Alert::success('Berhasil Di Simpan', 'Pesan');
+        return back();
+    }
+    
+    public function deleteWBBM($id)
+    {
+        $del = FileWbbm::find($id)->delete();
+        Alert::success('Berhasil Di Hapus', 'Pesan');
+        return back();
+    }
+
+    public function updateWBBM(Request $req)
+    {
+        $id_skpd = Auth::user()->skpd->id;
+        if($req->hasfile('file'))
+        {
+            $filename = $req->file->getClientOriginalName();
+            $filename = date('d-m-Y-').rand(1,999).$filename;
+            $req->file->storeAs('/public/wbbm/'.$id_skpd.'/',$filename);
+        }
+
+        $u = FileWbbm::find($req->kategori_id);
+        $u->filename    = $filename;
+        $u->save();
+        
+        Alert::success('Berhasil Di Update ', 'Pesan');
+        return back();
+    }
+
+    public function account()
+    {
+        $data = Auth::user()->skpd;
+        return view('skpd.akun',compact('data'));
+    }
+    
+    public function saveaccount(Request $req)
+    {
+        $id = Auth::user()->skpd->id;
+        if($req->password == null)
+        {
+            $u = Skpd::find($id);
+            $u->nama = $req->nama;
+            $u->jml_pegawai = $req->jml_pegawai;
+            $u->save();
+
+            $d = $u->user;
+            $d->email = $req->email;
+            $d->save();
+        }
+        else
+        {
+            $u = Skpd::find($id);
+            $u->nama = $req->nama;
+            $u->jml_pegawai = $req->jml_pegawai;
+            $u->save();
+
+            $d = $u->user;
+            $d->email = $req->email;
+            $d->password = bcrypt($req->password);
+            $d->save();
+        }
+        Alert::success('Skpd Berhasil Di update', 'Pesan');
+        return back();
+    }
 }

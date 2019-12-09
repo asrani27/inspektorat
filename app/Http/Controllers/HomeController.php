@@ -40,7 +40,9 @@ class HomeController extends Controller
         elseif(Auth::user()->hasRole('superadmin'))
         {
             $data = Auth::user();
-            return view('superadmin.dashboard.dashboard',compact('data'));
+            $skpd = count(Skpd::all());
+            $user = count(User::all());
+            return view('superadmin.dashboard.dashboard',compact('data','skpd','user'));
         }
         else
         {

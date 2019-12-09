@@ -131,4 +131,12 @@ Route::group(['middleware' => ['auth', 'role:skpd']], function () {
     Route::get('/skpd/filewbk/delete/{id}', 'SkpdController@deleteWBK');
     Route::post('/skpd/filewbk/update', 'SkpdController@updateWBK');
     
+    Route::get('/skpd/wbbm', 'SkpdController@wbbm');
+    Route::post('/skpd/wbbm', 'SkpdController@uploadWBBM');
+    Route::get('/skpd/filewbbm/delete/{id}', 'SkpdController@deleteWBBM');
+    Route::post('/skpd/filewbbm/update', 'SkpdController@updateWBBM');
+
+    Route::get('/account', 'SkpdController@account');
+    Route::post('/account', 'SkpdController@saveaccount');
+    
 });

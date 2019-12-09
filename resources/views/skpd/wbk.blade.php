@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', 'Pembangunan')
+@section('title', 'WBK')
 
 @push('css')
 

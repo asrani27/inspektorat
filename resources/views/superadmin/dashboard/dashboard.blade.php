@@ -23,21 +23,21 @@
 	<!-- begin row -->
 	<div class="row">
 		<!-- begin col-3 -->
-		<div class="col-lg-3 col-md-6">
+		<div class="col-lg-6 col-md-6">
 			<div class="widget widget-stats bg-red">
 				<div class="stats-icon"><i class="fa fa-desktop"></i></div>
 				<div class="stats-info">
 					<h4>TOTAL SKPD</h4>
-					<p>41</p>	
+					<p>{{$skpd}}</p>	
 				</div>
 				<div class="stats-link">
-					<a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+					<a href="/masterdata/skpd">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
 				</div>
 			</div>
 		</div>
 		<!-- end col-3 -->
 		<!-- begin col-3 -->
-		<div class="col-lg-3 col-md-6">
+		{{-- <div class="col-lg-3 col-md-6">
 			<div class="widget widget-stats bg-orange">
 				<div class="stats-icon"><i class="fa fa-link"></i></div>
 				<div class="stats-info">
@@ -48,15 +48,15 @@
 					<a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
 				</div>
 			</div>
-		</div>
+		</div> --}}
 		<!-- end col-3 -->
 		<!-- begin col-3 -->
-		<div class="col-lg-3 col-md-6">
+		<div class="col-lg-6 col-md-6">
 			<div class="widget widget-stats bg-grey-darker">
 				<div class="stats-icon"><i class="fa fa-users"></i></div>
 				<div class="stats-info">
 					<h4>TOTAL USER</h4>
-					<p>52</p>	
+					<p>{{$user}}</p>	
 				</div>
 				<div class="stats-link">
 					<a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
@@ -65,7 +65,7 @@
 		</div>
 		<!-- end col-3 -->
 		<!-- begin col-3 -->
-		<div class="col-lg-3 col-md-6">
+		{{-- <div class="col-lg-3 col-md-6">
 			<div class="widget widget-stats bg-black-lighter">
 				<div class="stats-icon"><i class="fa fa-clock"></i></div>
 				<div class="stats-info">
@@ -76,7 +76,7 @@
 					<a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
 				</div>
 			</div>
-		</div>
+		</div> --}}
   <!-- end widget-table -->
 	</div>
 	<!-- end row -->
