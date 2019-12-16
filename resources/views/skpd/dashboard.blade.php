@@ -21,7 +21,17 @@
         <div class="note-icon"><i class="fab fa-safari"></i></div>
         <div class="note-content">
             <h4><b>Selamat Datang!, {{$data->name}} </b></h4>
-        <p><strong>PREDIKAT : {{$skpd->predikat}}</strong></p>
+        <p><strong>PREDIKAT : 
+            @if($skpd->predikat == 'zi')
+                ZONA INTEGRITAS (ZI)
+            @elseif($skpd->predikat == 'wbk')
+                WILAYAH BEBAS KORUPSI (WBK)
+            @elseif($skpd->predikat == 'wbbm')
+                WILAYAH BIROKRASI BERSIH DAN MELAYANI (WBBM)
+            @else
+                {{$skpd->predikat}}
+            @endif
+        </strong></p>
         </div>
         </div>
         </div>

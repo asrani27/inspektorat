@@ -63,7 +63,7 @@
 					</div> --}}
 					<hr />
 					<p class="text-center text-grey-darker">
-						Dev &copy; Tim Programmer Diskominfotik
+						{{-- Dev &copy; Tim Programmer Diskominfotik --}}
 					</p>
 				</form>
 			</div>

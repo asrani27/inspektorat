@@ -107,6 +107,9 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::post('/wbbm/ubahstatus', 'WbbmController@ubahstatus');
     Route::post('/wbbm/nilai/{id_skpd}', 'WbbmController@isiNilai');
     Route::post('/wbbm/nilai/{id_skpd}/update', 'WbbmController@updateNilai');
+
+    //Route User
+    Route::get('/kelola_user', 'MasterDataController@user');
 });
 
 
@@ -119,6 +122,7 @@ Route::group(['middleware' => ['auth', 'role:skpd']], function () {
     Route::get('/pencanangan/delete/{id}', 'SkpdController@deleteFileUpload');
     Route::post('/pencanangan/judul/update', 'SkpdController@updateJudul');
     Route::post('/pencanangan/fileupload/update', 'SkpdController@updateFile');
+    Route::post('/jumlahPegawai', 'SkpdController@jumlahPegawai');
 
     
     Route::get('/pembangunan', 'SkpdController@pembangunan');

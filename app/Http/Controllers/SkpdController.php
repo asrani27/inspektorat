@@ -202,27 +202,33 @@ class SkpdController extends Controller
     {        
         $id_skpd = Auth::user()->skpd->id;
         $skpd = Skpd::find($id_skpd);
-        $data = Kategori::where('jenis','wbk')->get();
-        $map = $data->map(function($item)use($id_skpd){
-            $uk = $item->filewbk->where('skpd_id', $id_skpd)->first();
-            if($uk == null)
-            {
-                $item->filename = null;    
-                $item->nilai = null;    
-                $item->keterangan = null;    
-            }
-            else
-            {
-                $item->filename = $uk->filename;
-                $item->nilai = $uk->nilai;
-                $item->keterangan = $uk->keterangan;
-                $item->upload_id = $uk->id;
-                $item->status = $uk->status;
-            }
-            
-            return $item;
-        });
-        return view('skpd.wbk',compact('map','skpd','id_skpd'));
+        if($skpd->predikat == 'tidak ada'){
+        Alert::error('Anda Belum Menyelesaikan Zona Integritas', 'Pesan');
+        return back();
+        }
+        else{
+            $data = Kategori::where('jenis','wbk')->get();
+            $map = $data->map(function($item)use($id_skpd){
+                $uk = $item->filewbk->where('skpd_id', $id_skpd)->first();
+                if($uk == null)
+                {
+                    $item->filename = null;    
+                    $item->nilai = null;    
+                    $item->keterangan = null;    
+                }
+                else
+                {
+                    $item->filename = $uk->filename;
+                    $item->nilai = $uk->nilai;
+                    $item->keterangan = $uk->keterangan;
+                    $item->upload_id = $uk->id;
+                    $item->status = $uk->status;
+                }
+                
+                return $item;
+            });
+            return view('skpd.wbk',compact('map','skpd','id_skpd'));
+        }
     }
     
     public function uploadWBK(Request $req)
@@ -274,6 +280,12 @@ class SkpdController extends Controller
     {        
         $id_skpd = Auth::user()->skpd->id;
         $skpd = Skpd::find($id_skpd);
+        
+        if($skpd->predikat == 'tidak ada' OR $skpd->predikat == 'zi'){
+        Alert::error('Anda Belum Menyelesaikan Wilayah Bebas Korupsi (WBK)', 'Pesan');
+        return back();
+        }
+        else{
         $data = Kategori::where('jenis','wbbm')->get();
         $map = $data->map(function($item)use($id_skpd){
             $uk = $item->filewbbm->where('skpd_id', $id_skpd)->first();
@@ -295,6 +307,7 @@ class SkpdController extends Controller
             return $item;
         });
         return view('skpd.wbbm',compact('map','skpd','id_skpd'));
+        }
     }
     
     public function uploadWBBM(Request $req)
@@ -375,6 +388,16 @@ class SkpdController extends Controller
             $d->save();
         }
         Alert::success('Skpd Berhasil Di update', 'Pesan');
+        return back();
+    }
+
+    public function jumlahPegawai(Request $req)
+    {
+        $id_skpd = Auth::user()->skpd->id;
+        $s = Skpd::find($id_skpd);
+        $s->jml_pegawai = $req->jml_pegawai;
+        $s->save();
+        Alert::success('Jumlah Pegawai Berhasil Di Perbaharui', 'Pesan');
         return back();
     }
 }

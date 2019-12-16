@@ -307,4 +307,16 @@ class MasterDataController extends Controller
         Alert::success('Komponen Berhasil Di Perbaharui', 'Pesan');
         return back();
     }
+
+    public function user()
+    {
+        $user = User::all();
+        $map = $user->map(function($item){
+            $item->skpd = $item->skpd;
+            $item->role = $item->roles->first()->name;
+            return $item;
+        })->where('skpd', null);
+        
+        return view('superadmin.user.index',compact('map'));
+    }
 }

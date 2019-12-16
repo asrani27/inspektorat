@@ -23,10 +23,10 @@ class RoleSeeder extends Seeder
         $dosenRole->display_name = "skpd";
         $dosenRole->save();
         
-        //Membuat role Mahasiswa
+        //Membuat role Reader
         $mahasiswaRole = new  Role();
-        $mahasiswaRole->name = "inspektorat";
-        $mahasiswaRole->display_name = "inspektorat";
+        $mahasiswaRole->name = "reader";
+        $mahasiswaRole->display_name = "reader";
         $mahasiswaRole->save();
     }
 }

@@ -20,7 +20,7 @@
 				<!-- begin alert -->
 				<div class="alert alert-secondary fade show">
 					
-				<form action="/jumlahPegawa/{{$id_skpd}}" method="POST">
+				<form action="/jumlahPegawai" method="POST">
 					@csrf
 				<div class="form-group row">
 					@if($jml_pegawai == 0 && $id_kategori ==  1)

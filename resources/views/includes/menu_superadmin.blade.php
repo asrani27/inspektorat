@@ -38,7 +38,7 @@
         <li class="{{ (request()->is('masterdata/style')) ? 'active' : '' }}"><a href="/masterdata/style">Style</a></li>
     </ul>
 </li>
-<li>
+<li class="{{ (request()->is('kelola_user')) ? 'active' : '' }}">
     <a href="/kelola_user">
         <i class="fa fa-th-large"></i> 
         <span>Kelola Users</span> 
