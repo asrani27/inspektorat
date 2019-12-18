@@ -21,8 +21,8 @@
 			<!-- begin login-header -->
 			<div class="login-header">
 				<div class="brand text-center">
-				<img src={{url("/storage/{$data->logo}")}} width="80"> <br /><b>Login</b> Aplikasi
-					<small>{{$data->title}}</small>
+				<img src={{url("/storage/{$data->logo}")}} width="80"> <br /><b>Login {{$data->title}}</b>
+					<small></small>
 				</div>
 				<div class="icon">
 					<i class="fa fa-sign-in"></i>
