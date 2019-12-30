@@ -312,11 +312,75 @@ class MasterDataController extends Controller
     {
         $user = User::all();
         $map = $user->map(function($item){
-            $item->skpd = $item->skpd;
             $item->role = $item->roles->first()->name;
             return $item;
-        })->where('skpd', null);
-        
+        })->where('role', 'superadmin');
         return view('superadmin.user.index',compact('map'));
     }
+
+    public function simpanUser(Request $req)
+    {
+        $roleAdmin     = Role::where('name','superadmin')->first();
+        $s = new User;
+        $s->name     = $req->nama;
+        $s->username = $req->username;
+        $s->password = bcrypt($req->password);
+        $s->email    = $req->email;
+        $s->save();
+        $s->roles()->attach($roleAdmin);
+        Alert::success('User Admin Berhasil Di Simpan', 'Pesan');
+        return redirect('/kelola_user');
+    }
+
+    public function tambahUser()
+    {
+        return view('superadmin.user.tambah');
+    }
+    
+    public function editUser($id)
+    {
+        $data = User::find($id);
+        return view('superadmin.user.edit',compact('data'));
+    }
+
+    public function deleteUser($id)
+    {
+        $user = User::all();
+        $map = $user->map(function($item){
+            $item->role = $item->roles->first()->name;
+            return $item;
+        })->where('role', 'superadmin');
+        if($map->count() == 1)
+        {
+            Alert::error('User Tidak Bisa Di hapus Karena Cuma 1', 'Pesan');
+        }
+        else
+        {
+            $del = User::find($id)->delete();
+            Alert::success('User Admin Berhasil Di Hapus', 'Pesan');
+        }
+        return back();
+    }
+
+    public function updateUser(Request $req, $id)
+    {
+        if($req->password == null)
+        {
+            $u = User::find($id);
+            $u->name = $req->nama;
+            $u->email = $req->email;
+            $u->save();
+        }
+        else
+        {
+            $u = User::find($id);
+            $u->name = $req->nama;
+            $u->email = $req->email;
+            $u->password = bcrypt($req->password);
+            $u->save();
+        }
+        Alert::success('User Berhasil Di update', 'Pesan');
+        return redirect('/kelola_user');
+    }
+
 }

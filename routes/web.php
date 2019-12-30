@@ -110,6 +110,11 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
 
     //Route User
     Route::get('/kelola_user', 'MasterDataController@user');
+    Route::get('/kelola_user/tambah', 'MasterDataController@tambahUser');
+    Route::get('/kelola_user/{id}/edit', 'MasterDataController@editUser');
+    Route::get('/kelola_user/{id}/delete', 'MasterDataController@deleteUser');
+    Route::post('/kelola_user/{id}/update', 'MasterDataController@updateUser');
+    Route::post('/kelola_user', 'MasterDataController@simpanUser');
 });
 
 

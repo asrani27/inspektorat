@@ -21,7 +21,7 @@
 				<!-- end panel-heading -->
 				<!-- begin alert -->
 				<div class="alert alert-secondary fade show">
-                    <a href="/masterdata/user/tambah" class="btn btn-primary btn-xs"> <i class="fa fa-plus"></i> Tambah</a>
+                    <a href="/kelola_user/tambah" class="btn btn-primary btn-xs"> <i class="fa fa-plus"></i> Tambah</a>
 				</div>
 				<!-- end alert -->
 				<!-- begin panel-body -->
@@ -49,8 +49,8 @@
                                 <td>{{$item->email}}</td>
                                 <td>{{$item->role}}</td>
 								<td> 
-									<a href="/masterdata/skpd/{{$item->id}}/edit" class="btn btn-primary btn-xs">edit</a>
-									<a href="/masterdata/skpd/{{$item->id}}/delete" class="btn btn-danger btn-xs">delete</a>
+									<a href="/kelola_user/{{$item->id}}/edit" class="btn btn-primary btn-xs">edit</a>
+									<a href="/kelola_user/{{$item->id}}/delete" class="btn btn-danger btn-xs" onclick="return confirm('Yakin ingin di hapus?');">delete</a>
                                 </td>
 							</tr>
                             @endforeach

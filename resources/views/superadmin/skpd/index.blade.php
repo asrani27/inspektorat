@@ -50,7 +50,7 @@
                                 <td>{{$item->predikat}}</td>
 								<td> 
 									<a href="/masterdata/skpd/{{$item->id}}/edit" class="btn btn-primary btn-xs">edit</a>
-									<a href="/masterdata/skpd/{{$item->id}}/delete" class="btn btn-danger btn-xs">delete</a>
+									<a href="/masterdata/skpd/{{$item->id}}/delete" class="btn btn-danger btn-xs"  onclick="return confirm('Yakin ingin di hapus?');">delete</a>
                                 </td>
 							</tr>
                             @endforeach
