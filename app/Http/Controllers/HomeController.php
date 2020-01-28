@@ -46,6 +46,7 @@ class HomeController extends Controller
         }
         else
         {
+            dd(Auth::user()->Roles());
             return view('noakses');
         }
     }
