@@ -13,11 +13,11 @@
 
 
 Route::get('/', function () {
-    if(Auth::check()) {
+    if (Auth::check()) {
         return redirect()->route('home');
-    } 
+    }
     $data = \App\FrontPage::first();
-    return view('auth.login',compact('data'));
+    return view('auth.login', compact('data'));
 });
 
 Route::post('/login', 'Auth\LoginController@login')->name('login');
@@ -25,7 +25,7 @@ Route::get('/login', function () {
     return redirect('/');
 });
 
-Route::get('/logout', function() {
+Route::get('/logout', function () {
     Auth::logout();
     return redirect()->to('/');
 });
@@ -42,12 +42,12 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::get('/masterdata/skpd/{id}/edit', 'MasterDataController@editSkpd');
     Route::post('/masterdata/skpd/simpan', 'MasterDataController@simpanSkpd');
     Route::post('/simpanPegawai/{id_skpd}', 'MasterDataController@simpanPegawai');
-    
+
     Route::get('/masterdata/kategori', 'MasterDataController@kategori');
     Route::post('/masterdata/kategori', 'MasterDataController@simpankategori');
     Route::post('/masterdata/kategori/update', 'MasterDataController@updatekategori');
     Route::get('/masterdata/kategori/{id}/delete', 'MasterDataController@deletekategori');
-    
+
     Route::get('/masterdata/wbk', 'MasterDataController@wbk');
     Route::post('/masterdata/wbk', 'MasterDataController@simpanwbk');
     Route::post('/masterdata/wbk/update', 'MasterDataController@updatewbk');
@@ -78,7 +78,7 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::post('/fileupload/update', 'PnController@updateFile');
     Route::post('/fileupload/judul/update', 'PnController@updateJudul');
     Route::post('/zi/pencanangan/ubahstatus', 'PnController@ubahstatus');
-    
+
     //Route Pembangunan
     Route::get('/zi/pembangunan/skpd/{id_skpd}', 'PbController@ziPembangunan');
     Route::post('/zi/pembangunan/skpd/{id_skpd}', 'PbController@PembangunanUploadSimpan');
@@ -129,7 +129,7 @@ Route::group(['middleware' => ['auth', 'role:skpd']], function () {
     Route::post('/pencanangan/fileupload/update', 'SkpdController@updateFile');
     Route::post('/jumlahPegawai', 'SkpdController@jumlahPegawai');
 
-    
+
     Route::get('/pembangunan', 'SkpdController@pembangunan');
     Route::post('/pembangunan/upload', 'SkpdController@uploadPB');
     Route::post('/pembangunan/updatefile', 'SkpdController@updateFilePB');
@@ -139,7 +139,7 @@ Route::group(['middleware' => ['auth', 'role:skpd']], function () {
     Route::post('/skpd/wbk', 'SkpdController@uploadWBK');
     Route::get('/skpd/filewbk/delete/{id}', 'SkpdController@deleteWBK');
     Route::post('/skpd/filewbk/update', 'SkpdController@updateWBK');
-    
+
     Route::get('/skpd/wbbm', 'SkpdController@wbbm');
     Route::post('/skpd/wbbm', 'SkpdController@uploadWBBM');
     Route::get('/skpd/filewbbm/delete/{id}', 'SkpdController@deleteWBBM');
@@ -147,5 +147,4 @@ Route::group(['middleware' => ['auth', 'role:skpd']], function () {
 
     Route::get('/account', 'SkpdController@account');
     Route::post('/account', 'SkpdController@saveaccount');
-    
 });
